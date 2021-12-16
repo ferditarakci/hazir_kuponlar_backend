@@ -1,0 +1,37 @@
+ErrorDocument 404 /
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+
+	# RewriteCond %{HTTPS} off [OR]
+	RewriteCond %{HTTP_X_FORWARDED_PROTO} https
+	RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+	RewriteCond %{HTTP_HOST} !^www\. [NC]
+	RewriteRule .* https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+	RewriteCond %{THE_REQUEST} ^/index\.php [NC]
+	RewriteCond %{THE_REQUEST} !myadmin [NC]
+	RewriteRule ^(.*)index.php$ /$1 [R=301,L]
+
+	RewriteRule ^$ banko-kuponlar.php [L]
+	RewriteRule ^banko-kuponlar$ banko-kuponlar.php [L]
+	RewriteRule ^golcu-kuponlar$ golcu-kuponlar.php [L]
+	RewriteRule ^surpriz-kuponlar$ surpriz-kuponlar.php [L]
+	RewriteRule ^sistem-3-4-kuponlari$ sistem-3-4-kuponlari.php [L]
+	RewriteRule ^sistem-4-5-6-kuponlari$ sistem-4-5-6-kuponlari.php [L]
+	RewriteRule ^tutan-kuponlar$ tutan-kuponlar.php [L]
+	RewriteRule ^blog$ blog.php [L]
+	RewriteRule ^hakkimizda$ hakkimizda.php [L]
+	RewriteRule ^kullanim-sartlari$ kullanim-sartlari.php [L]
+	RewriteRule ^iletisim$ iletisim.php [L]
+
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^blog/(.*) blog_detay.php?link_name=$1 [QSA,L]
+
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^blog blog.php [QSA,L]
+</IfModule>
